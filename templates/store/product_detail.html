@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} - ShopEasy{% endblock %}
+{% block content %}
+<div class="detail-card">
+    <div>
+        {% if product.image_url %}
+            <img class="detail-image" src="{{ product.image_url }}" alt="{{ product.name }}">
+        {% else %}
+            <div class="detail-placeholder">No Image</div>
+        {% endif %}
+    </div>
+    <div>
+        <p class="eyebrow">PRODUCT DETAILS</p>
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
+        <h2 class="price">₹{{ product.price }}</h2>
+        <p>Available stock: <strong>{{ product.stock }}</strong></p>
+        {% if product.stock %}
+            <a class="btn" href="{% url 'add_to_cart' product.pk %}">Add to Cart</a>
+        {% else %}
+            <span class="out">Out of stock</span>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

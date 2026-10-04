@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Shopping Cart - ShopEasy{% endblock %}
+{% block content %}
+<h1>Shopping Cart</h1>
+
+{% if items %}
+<div class="cart-list">
+    {% for item in items %}
+    <div class="cart-item">
+        <div>
+            <h3>{{ item.product.name }}</h3>
+            <p>₹{{ item.product.price }} × {{ item.quantity }}</p>
+        </div>
+        <strong>₹{{ item.subtotal }}</strong>
+        <a class="remove" href="{% url 'remove_from_cart' item.product.pk %}">Remove</a>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="summary">
+    <h2>Total: ₹{{ total }}</h2>
+    {% if user.is_authenticated %}
+        <a class="btn" href="{% url 'checkout' %}">Proceed to Checkout</a>
+    {% else %}
+        <a class="btn" href="{% url 'login' %}?next={% url 'cart' %}">Login to Checkout</a>
+    {% endif %}
+</div>
+{% else %}
+<div class="empty">
+    <h2>Your cart is empty.</h2>
+    <a class="btn" href="{% url 'home' %}">Continue Shopping</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Checkout - ShopEasy{% endblock %}
+{% block content %}
+<div class="checkout-grid">
+    <section class="form-card">
+        <h1>Checkout</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                    <small class="error">{{ error }}</small>
+                {% endfor %}
+            {% endfor %}
+            <button class="btn full" type="submit">Place Order</button>
+        </form>
+    </section>
+
+    <aside class="summary">
+        <h2>Order Summary</h2>
+        {% for item in items %}
+            <p>{{ item.product.name }} × {{ item.quantity }} <span>₹{{ item.subtotal }}</span></p>
+        {% endfor %}
+        <hr>
+        <h2>Total: ₹{{ total }}</h2>
+    </aside>
+</div>
+{% endblock %}

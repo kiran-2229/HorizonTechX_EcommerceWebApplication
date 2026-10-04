@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}My Orders - ShopEasy{% endblock %}
+{% block content %}
+<h1>My Orders</h1>
+{% for order in orders %}
+<div class="order-row">
+    <div>
+        <strong>Order #{{ order.id }}</strong>
+        <p>{{ order.created_at|date:"d M Y, h:i A" }}</p>
+    </div>
+    <div>
+        <span class="status">{{ order.get_status_display }}</span>
+        <strong>₹{{ order.total_amount }}</strong>
+        <a class="btn secondary" href="{% url 'order_detail' order.id %}">Track Order</a>
+    </div>
+</div>
+{% empty %}
+<div class="empty">
+    <h2>No orders yet.</h2>
+    <a class="btn" href="{% url 'home' %}">Start Shopping</a>
+</div>
+{% endfor %}
+{% endblock %}

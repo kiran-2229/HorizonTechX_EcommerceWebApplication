@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Login - ShopEasy{% endblock %}
+{% block content %}
+<div class="auth-card">
+    <h1>Login</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+        <button class="btn full" type="submit">Login</button>
+    </form>
+    <p>New user? <a href="{% url 'register' %}">Create an account</a></p>
+</div>
+{% endblock %}

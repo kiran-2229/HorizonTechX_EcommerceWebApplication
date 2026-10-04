@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Order #{{ order.id }} - ShopEasy{% endblock %}
+{% block content %}
+<h1>Track Order #{{ order.id }}</h1>
+<p>Placed on {{ order.created_at|date:"d M Y, h:i A" }}</p>
+
+<div class="tracking">
+    <div class="track-step {% if order.status in 'PLACED PACKED SHIPPED DELIVERED' %}active{% endif %}">
+        <span>1</span><b>Order Placed</b>
+    </div>
+    <div class="track-step {% if order.status in 'PACKED SHIPPED DELIVERED' %}active{% endif %}">
+        <span>2</span><b>Packed</b>
+    </div>
+    <div class="track-step {% if order.status in 'SHIPPED DELIVERED' %}active{% endif %}">
+        <span>3</span><b>Shipped</b>
+    </div>
+    <div class="track-step {% if order.status == 'DELIVERED' %}active{% endif %}">
+        <span>4</span><b>Delivered</b>
+    </div>
+</div>
+
+<div class="detail-card order-info">
+    <div>
+        <h2>Items</h2>
+        {% for item in order.items.all %}
+            <p>{{ item.product_name }} × {{ item.quantity }} — ₹{{ item.subtotal }}</p>
+        {% endfor %}
+        <h2>Total: ₹{{ order.total_amount }}</h2>
+    </div>
+    <div>
+        <h2>Delivery Details</h2>
+        <p>{{ order.full_name }}</p>
+        <p>{{ order.email }}</p>
+        <p>{{ order.phone }}</p>
+        <p>{{ order.address }}</p>
+        <p><strong>Current status:</strong> {{ order.get_status_display }}</p>
+    </div>
+</div>
+{% endblock %}
